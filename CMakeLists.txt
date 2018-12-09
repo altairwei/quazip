@@ -43,8 +43,10 @@ endif()
 if(UNIX OR MINGW)
     find_package(ZLIB REQUIRED)
 else(UNIX OR MINGW)
-    set(ZLIB_INCLUDE_DIRS "${QT_ROOT}/src/3rdparty/zlib" CACHE STRING "Path to ZLIB headers of Qt")
-    set(ZLIB_LIBRARIES "")
+    # use zlib of conan
+    find_package(zlib REQUIRED)
+    set(ZLIB_INCLUDE_DIRS ${zlib_INCLUDE_DIRS})
+    set(ZLIB_LIBRARIES ${zlib_INCLUDE_DIRS})
     if(NOT EXISTS "${ZLIB_INCLUDE_DIRS}/zlib.h")
         message("Please specify a valid zlib include dir")
     endif(NOT EXISTS "${ZLIB_INCLUDE_DIRS}/zlib.h")
@@ -60,4 +62,4 @@ set(QUAZIP_LIB_TARGET_NAME quazip${QUAZIP_LIB_VERSION_SUFFIX} CACHE
 
 add_subdirectory(quazip)
 
-install(FILES FindQuaZip.cmake RENAME FindQuaZip${QUAZIP_LIB_VERSION_SUFFIX}.cmake DESTINATION ${CMAKE_ROOT}/Modules)
+#install(FILES FindQuaZip.cmake RENAME FindQuaZip${QUAZIP_LIB_VERSION_SUFFIX}.cmake DESTINATION ${CMAKE_ROOT}/Modules)
