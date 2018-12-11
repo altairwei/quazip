@@ -39,18 +39,17 @@ else()
     endmacro()
 endif()
 
-# Use system zlib on unix and Qt ZLIB on Windows
-if(UNIX OR MINGW)
-    find_package(ZLIB REQUIRED)
-else(UNIX OR MINGW)
+# Use system zlib on unix and conan ZLIB on Windows
+find_package(ZLIB)
+if(NOT ZLIB_FOUND)
     # use zlib of conan
     find_package(zlib REQUIRED)
     set(ZLIB_INCLUDE_DIRS ${zlib_INCLUDE_DIRS})
-    set(ZLIB_LIBRARIES ${zlib_INCLUDE_DIRS})
+    set(ZLIB_LIBRARIES ${zlib_LIBRARIES})
     if(NOT EXISTS "${ZLIB_INCLUDE_DIRS}/zlib.h")
         message("Please specify a valid zlib include dir")
     endif(NOT EXISTS "${ZLIB_INCLUDE_DIRS}/zlib.h")
-endif(UNIX OR MINGW)
+endif()
 
 # All build libraries are moved to this directory
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
